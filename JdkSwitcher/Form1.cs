@@ -24,17 +24,17 @@ namespace JdkSwitcher
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            if (fbd.ShowDialog() == DialogResult.OK)
             {
-                txtbJdk.Text = folderBrowserDialog1.SelectedPath;
+                txtbJdk.Text = fbd.SelectedPath;
             }
         }
 
         private void Button2_Click(object sender, EventArgs e)
         {
-            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            if (fbd.ShowDialog() == DialogResult.OK)
             {
-                txtbMaven.Text = folderBrowserDialog1.SelectedPath;
+                txtbMaven.Text = fbd.SelectedPath;
             }
         }
 
