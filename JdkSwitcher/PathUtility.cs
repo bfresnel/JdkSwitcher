@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JdkSwitcher
 {
@@ -15,9 +13,27 @@ namespace JdkSwitcher
 
         public static void checkPathVariable()
         {
-            List<String> pathsToCheck = new List<string>();
-            String[] paths = Environment.GetEnvironmentVariable("PATH").Split(';');
-            foreach(String path in paths)
+            bool bResult = true;
+            string pathToModify = "";
+            List<string> pathsToCheck = new List<string>();
+            string[] paths = Environment.GetEnvironmentVariable("PATH").Split(';');
+            List<string> pathsList = paths.ToList();
+            isPathAlreadyExisting(ref bResult, ref pathToModify, pathsToCheck, pathsList);
+
+            if (bResult)
+            {
+                modifyPathVariable();
+            }
+        }
+
+        private static void modifyPathVariable()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void isPathAlreadyExisting(ref bool bResult, ref string pathToModify, List<string> pathsToCheck, List<string> pathsList)
+        {
+            foreach (string path in pathsList)
             {
                 if (path.Contains("\\bin"))
                 {
@@ -27,16 +43,19 @@ namespace JdkSwitcher
 
             if (pathsToCheck.Count() > 0)
             {
-                foreach(String path in pathsToCheck)
+                foreach (string path in pathsToCheck)
                 {
-                    bool bResult = executeJavaVersion(path);
+                    if (executeJavaVersion(path))
+                    {
+                        bResult = true;
+                        pathToModify = path;
+                    }
                 }
             }
         }
 
-        private static bool executeJavaVersion(String pathToTest)
+        private static bool executeJavaVersion(string pathToTest)
         {
-            Logger.Debug("TEST LOGGER");
             Process process = new Process();
             process.StartInfo.FileName = pathToTest + "\\java.exe";
             process.StartInfo.Arguments = "-version";
@@ -51,7 +70,7 @@ namespace JdkSwitcher
             }
             catch (Win32Exception e)
             {
-                Logger.Error(e, "Well...");
+                Logger.Error(e, e.Message);
                 return false;
             }
             return true;

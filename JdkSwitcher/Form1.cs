@@ -5,6 +5,7 @@ namespace JdkSwitcher
 {
     public partial class Form1 : Form
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         private static readonly string JDK_VAR = "JAVA_HOME";
         private string jdk;
 
@@ -34,7 +35,7 @@ namespace JdkSwitcher
 
         private void BtnValidate_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Application des modifications...");
+            Logger.Debug("Application des modifications...");
             PathUtility.checkPathVariable();
 
             /*if (jdk != txtbJdk.Text)
