@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 
 namespace JdkSwitcher
@@ -11,19 +12,9 @@ namespace JdkSwitcher
 
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public static void checkPathVariable()
+        public static List<string> GetPathValuesList()
         {
-            bool bResult = true;
-            string pathToModify = "";
-            List<string> pathsToCheck = new List<string>();
-            string[] paths = Environment.GetEnvironmentVariable("PATH").Split(';');
-            List<string> pathsList = paths.ToList();
-            isPathAlreadyExisting(ref bResult, ref pathToModify, pathsToCheck, pathsList);
-
-            if (bResult)
-            {
-                modifyPathVariable();
-            }
+            return Environment.GetEnvironmentVariable("PATH").Split(';').ToList();
         }
 
         private static void modifyPathVariable()
@@ -31,8 +22,15 @@ namespace JdkSwitcher
             throw new NotImplementedException();
         }
 
-        private static void isPathAlreadyExisting(ref bool bResult, ref string pathToModify, List<string> pathsToCheck, List<string> pathsList)
+        public static string ParseJavaVersion(string path)
         {
+            executeJavaVersion(path);
+            return "Unsupported version";
+        }
+
+        public static bool IsJavaPathAlreadyExisting(List<string> pathsList)
+        {
+            List<string> pathsToCheck = new List<string>();
             foreach (string path in pathsList)
             {
                 if (path.Contains("\\bin"))
@@ -45,16 +43,25 @@ namespace JdkSwitcher
             {
                 foreach (string path in pathsToCheck)
                 {
-                    if (executeJavaVersion(path))
+                    Logger.Debug("Testing {0}", path);
+                    if (IsJavaExeIsPresent(path))
                     {
-                        bResult = true;
-                        pathToModify = path;
+                        Logger.Info("Java executable detected at {0}{1}", path, "\\java.exe");
+                        return true;
                     }
+                    Logger.Debug("Not available");
                 }
             }
+
+            return false;
         }
 
-        private static bool executeJavaVersion(string pathToTest)
+        private static bool IsJavaExeIsPresent(string pathToTest)
+        {
+            return File.Exists(pathToTest + "\\java.exe");
+        }
+
+        private static string executeJavaVersion(string pathToTest)
         {
             Process process = new Process();
             process.StartInfo.FileName = pathToTest + "\\java.exe";
@@ -66,14 +73,15 @@ namespace JdkSwitcher
             {
                 process.Start();
                 string sOutput = process.StandardOutput.ReadToEnd();
+                Logger.Debug("Sortie sOuput {0}", sOutput);
                 process.WaitForExit();
             }
             catch (Win32Exception e)
             {
                 Logger.Error(e, e.Message);
-                return false;
+                return "bidule";
             }
-            return true;
+            return "endOfMethod";
         }
     }
 }

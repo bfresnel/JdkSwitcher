@@ -35,8 +35,7 @@ namespace JdkSwitcher
 
         private void BtnValidate_Click(object sender, EventArgs e)
         {
-            Logger.Debug("Application des modifications...");
-            PathUtility.checkPathVariable();
+            PathUtility.IsJavaPathAlreadyExisting(PathUtility.GetPathValuesList());
 
             /*if (jdk != txtbJdk.Text)
             {
