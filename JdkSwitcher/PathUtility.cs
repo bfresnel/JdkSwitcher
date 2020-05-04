@@ -12,20 +12,21 @@ namespace JdkSwitcher
 
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public static List<string> GetPathValuesList()
+        public static List<string> GetPathValuesAsList()
         {
-            return Environment.GetEnvironmentVariable("PATH").Split(';').ToList();
+            return Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User).Split(';').ToList();
         }
 
-        private static void modifyPathVariable()
+        public static void UpdatingPathWithNewJdk(string oldPath, string pathToNewJdk)
         {
-            throw new NotImplementedException();
-        }
-
-        public static string ParseJavaVersion(string path)
-        {
-            executeJavaVersion(path);
-            return "Unsupported version";
+            List<string> updatedPath = GetPathValuesAsList();
+            Logger.Debug("OLD PATH : " + Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User));
+            int indexToRemove = updatedPath.IndexOf(oldPath);
+            updatedPath.RemoveAt(indexToRemove);
+            updatedPath.Insert(indexToRemove, pathToNewJdk);
+            string updatedPathString = String.Join(";", updatedPath);
+            Logger.Debug("NEW PATH : " + updatedPathString);
+            Environment.SetEnvironmentVariable("PATH", updatedPathString, EnvironmentVariableTarget.User);
         }
 
         public static bool IsJavaPathAlreadyExisting(List<string> pathsList)
@@ -46,7 +47,7 @@ namespace JdkSwitcher
                     Logger.Debug("Testing {0}", path);
                     if (IsJavaExeIsPresent(path))
                     {
-                        Logger.Info("Java executable detected at {0}{1}", path, "\\java.exe");
+                        Logger.Info("Java executable detected : {0}{1}", path, "\\java.exe");
                         return true;
                     }
                     Logger.Debug("Not available");

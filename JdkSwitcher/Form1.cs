@@ -16,7 +16,7 @@ namespace JdkSwitcher
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            LoadPath();
+            jdk = Environment.GetEnvironmentVariable(JDK_VAR, EnvironmentVariableTarget.User);
             txtbJdk.Text = jdk;
         }
 
@@ -28,21 +28,17 @@ namespace JdkSwitcher
             }
         }
 
-        private void LoadPath()
-        {
-            jdk = Environment.GetEnvironmentVariable(JDK_VAR, EnvironmentVariableTarget.User);
-        }
-
         private void BtnValidate_Click(object sender, EventArgs e)
         {
-            PathUtility.IsJavaPathAlreadyExisting(PathUtility.GetPathValuesList());
+            PathUtility.UpdatingPathWithNewJdk(Environment.GetEnvironmentVariable("JAVA_HOME", EnvironmentVariableTarget.User) + "\\bin", txtbJdk.Text + "\\bin");
+            Environment.SetEnvironmentVariable("JAVA_HOME", txtbJdk.Text.Trim(), EnvironmentVariableTarget.User);
+            btnValidate.Enabled = false;
+            string message = "Configuration appliquée";
+            string caption = "caption";
+            MessageBoxButtons buttons = MessageBoxButtons.OK;
+            MessageBoxIcon icon = MessageBoxIcon.Information;
+            MessageBox.Show(message, caption, buttons, icon);
 
-            /*if (jdk != txtbJdk.Text)
-            {
-                Environment.SetEnvironmentVariable(JDK_VAR, txtbJdk.Text, EnvironmentVariableTarget.User);
-                jdk = txtbJdk.Text;
-                Console.WriteLine("JDK : {0}", jdk);
-            }*/
         }
     }
 }
