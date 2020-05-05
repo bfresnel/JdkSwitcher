@@ -19,15 +19,9 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.101
-    - name: Install dependencies
-      run: dotnet restore
     - name: Setup MSBuild.exe in PATH
       uses: microsoft/setup-msbuild@v1.0.0
-    - name:  Restore the Wpf application to populate the obj folder
+    - name:  Build Form Application
       run: msbuild $env:Solution_Path /t:Restore /p:Configuration=$env:Configuration
       env:
-        Configuration: Debug
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
+        Configuration: Release
