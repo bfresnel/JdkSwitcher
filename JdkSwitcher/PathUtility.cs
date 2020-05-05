@@ -62,7 +62,7 @@ namespace JdkSwitcher
             return File.Exists(pathToTest + "\\java.exe");
         }
 
-        private static string executeJavaVersion(string pathToTest)
+        private static void ExecuteJavaVersion(string pathToTest)
         {
             Process process = new Process();
             process.StartInfo.FileName = pathToTest + "\\java.exe";
@@ -80,9 +80,7 @@ namespace JdkSwitcher
             catch (Win32Exception e)
             {
                 Logger.Error(e, e.Message);
-                return "bidule";
             }
-            return "endOfMethod";
         }
     }
 }

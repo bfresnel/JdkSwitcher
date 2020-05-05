@@ -1,6 +1,6 @@
 ﻿namespace JdkSwitcher
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Variable nécessaire au concepteur.
@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.txtbJdk = new System.Windows.Forms.TextBox();
             this.lblJdk = new System.Windows.Forms.Label();
             this.fbd = new System.Windows.Forms.FolderBrowserDialog();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonBrowse = new System.Windows.Forms.Button();
             this.btnValidate = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -43,25 +43,25 @@
             this.txtbJdk.Size = new System.Drawing.Size(229, 22);
             this.txtbJdk.TabIndex = 0;
             // 
-            // label1
+            // lblJdk
             // 
             this.lblJdk.AutoSize = true;
             this.lblJdk.Location = new System.Drawing.Point(12, 9);
-            this.lblJdk.Name = "label1";
+            this.lblJdk.Name = "lblJdk";
             this.lblJdk.Size = new System.Drawing.Size(42, 17);
             this.lblJdk.TabIndex = 1;
             this.lblJdk.Text = "JDK :";
             // 
-            // button1
+            // buttonBrowse
             // 
-            this.button1.AutoSize = true;
-            this.button1.Location = new System.Drawing.Point(250, 27);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(96, 27);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Parcourir...";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.Button1_Click);
+            this.buttonBrowse.AutoSize = true;
+            this.buttonBrowse.Location = new System.Drawing.Point(250, 27);
+            this.buttonBrowse.Name = "buttonBrowse";
+            this.buttonBrowse.Size = new System.Drawing.Size(96, 27);
+            this.buttonBrowse.TabIndex = 4;
+            this.buttonBrowse.Text = "Browse...";
+            this.buttonBrowse.UseVisualStyleBackColor = true;
+            this.buttonBrowse.Click += new System.EventHandler(this.Button1_Click);
             // 
             // btnValidate
             // 
@@ -69,11 +69,11 @@
             this.btnValidate.Name = "btnValidate";
             this.btnValidate.Size = new System.Drawing.Size(331, 61);
             this.btnValidate.TabIndex = 6;
-            this.btnValidate.Text = "Appliquer";
+            this.btnValidate.Text = "Apply";
             this.btnValidate.UseVisualStyleBackColor = true;
             this.btnValidate.Click += new System.EventHandler(this.BtnValidate_Click);
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -81,9 +81,9 @@
             this.Controls.Add(this.btnValidate);
             this.Controls.Add(this.lblJdk);
             this.Controls.Add(this.txtbJdk);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonBrowse);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "JdkSwitcher";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
@@ -96,7 +96,7 @@
         private System.Windows.Forms.TextBox txtbJdk;
         private System.Windows.Forms.Label lblJdk;
         private System.Windows.Forms.FolderBrowserDialog fbd;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonBrowse;
         private System.Windows.Forms.Button btnValidate;
     }
 }

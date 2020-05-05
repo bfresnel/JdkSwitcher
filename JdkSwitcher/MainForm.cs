@@ -3,13 +3,12 @@ using System.Windows.Forms;
 
 namespace JdkSwitcher
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         private static readonly string JDK_VAR = "JAVA_HOME";
         private string jdk;
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
         }
@@ -33,8 +32,8 @@ namespace JdkSwitcher
             PathUtility.UpdatingPathWithNewJdk(Environment.GetEnvironmentVariable("JAVA_HOME", EnvironmentVariableTarget.User) + "\\bin", txtbJdk.Text + "\\bin");
             Environment.SetEnvironmentVariable("JAVA_HOME", txtbJdk.Text.Trim(), EnvironmentVariableTarget.User);
             btnValidate.Enabled = false;
-            string message = "Configuration appliquée";
-            string caption = "caption";
+            string message = "Configuration applied with success !";
+            string caption = "Success";
             MessageBoxButtons buttons = MessageBoxButtons.OK;
             MessageBoxIcon icon = MessageBoxIcon.Information;
             MessageBox.Show(message, caption, buttons, icon);
