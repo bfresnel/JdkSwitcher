@@ -1,4 +1,4 @@
-name: JdkSwitcher
+name: .NET Core
 
 on:
   push:
