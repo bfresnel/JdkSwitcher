@@ -10,6 +10,8 @@ jobs:
   build:
 
     runs-on: windows-latest
+    env:
+      Solution_Path: JdkSwitcher.sln
 
     steps:
     - uses: actions/checkout@v2
@@ -21,6 +23,10 @@ jobs:
       run: dotnet restore
     - name: Setup MSBuild.exe in PATH
       uses: microsoft/setup-msbuild@v1.0.0
+    - name:  Restore the Wpf application to populate the obj folder
+      run: msbuild $env:Solution_Path /t:Restore /p:Configuration=$env:Configuration
+      env:
+        Configuration: Debug
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Test
