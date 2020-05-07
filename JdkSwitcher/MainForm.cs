@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Text.Json;
 using System.IO;
+using System.Text.Json.Serialization;
 
 namespace JdkSwitcher
 {
@@ -19,6 +20,13 @@ namespace JdkSwitcher
         private void Form1_Load(object sender, EventArgs e)
         {
             txtbJdk.Text = jdk;
+            string jsonString = File.ReadAllText("C:\\app\\JdkSwitcher\\JdkSwitcher\\Save.json");
+            PathConfiguration pc = JsonSerializer.Deserialize<PathConfiguration>(jsonString);
+            comboBox1.Items.Add(pc);
+            if (comboBox1.Items.Count > 0)
+            {
+                comboBox1.SelectedIndex = 0;
+            }
         }
 
         private void Button1_Click(object sender, EventArgs e)

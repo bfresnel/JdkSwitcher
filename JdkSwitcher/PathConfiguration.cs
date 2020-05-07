@@ -11,6 +11,10 @@ namespace JdkSwitcher
         public string Name { get; set; }
         public string PathValue { get; set; }
 
+        public PathConfiguration()
+        {
+        }
+
         public PathConfiguration(string name, string pathValue)
         {
             this.Name = name;
