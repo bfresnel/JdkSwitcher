@@ -11,11 +11,11 @@ namespace JdkSwitcher
         public MainForm()
         {
             InitializeComponent();
+            this.jdk = Environment.GetEnvironmentVariable(JDK_VAR, EnvironmentVariableTarget.User);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            jdk = Environment.GetEnvironmentVariable(JDK_VAR, EnvironmentVariableTarget.User);
             txtbJdk.Text = jdk;
         }
 
@@ -29,9 +29,11 @@ namespace JdkSwitcher
 
         private void BtnValidate_Click(object sender, EventArgs e)
         {
-            PathUtility.UpdatingPathWithNewJdk(Environment.GetEnvironmentVariable("JAVA_HOME", EnvironmentVariableTarget.User) + "\\bin", txtbJdk.Text + "\\bin");
-            Environment.SetEnvironmentVariable("JAVA_HOME", txtbJdk.Text.Trim(), EnvironmentVariableTarget.User);
             btnValidate.Enabled = false;
+            PathUtility.UpdatingPathWithNewJdk(Environment.GetEnvironmentVariable(JDK_VAR, EnvironmentVariableTarget.User) + "\\bin", txtbJdk.Text + "\\bin");
+            Environment.SetEnvironmentVariable(JDK_VAR, txtbJdk.Text.Trim(), EnvironmentVariableTarget.User);
+            btnValidate.Enabled = true;
+
             string message = "Configuration applied with success !";
             string caption = "Success";
             MessageBoxButtons buttons = MessageBoxButtons.OK;
