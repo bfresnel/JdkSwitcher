@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Text.Json;
+using System.IO;
 
 namespace JdkSwitcher
 {
@@ -40,6 +42,14 @@ namespace JdkSwitcher
             MessageBoxIcon icon = MessageBoxIcon.Information;
             MessageBox.Show(message, caption, buttons, icon);
 
+        }
+
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            sfd.ShowDialog();
+            PathConfiguration pc = new PathConfiguration("JDK8", "C\\Test\\LOUL");
+            string jsonString = JsonSerializer.Serialize(pc);
+            File.WriteAllText("C:\\app\\JdkSwitcher\\JdkSwitcher\\Save.json", jsonString);
         }
     }
 }
