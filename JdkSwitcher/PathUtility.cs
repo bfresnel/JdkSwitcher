@@ -45,7 +45,7 @@ namespace JdkSwitcher
                 foreach (string path in pathsToCheck)
                 {
                     Logger.Debug("Testing {0}", path);
-                    if (IsJavaExeIsPresent(path))
+                    if (File.Exists(path + "\\java.exe"))
                     {
                         Logger.Info("Java executable detected : {0}{1}", path, "\\java.exe");
                         return true;
@@ -55,32 +55,6 @@ namespace JdkSwitcher
             }
 
             return false;
-        }
-
-        private static bool IsJavaExeIsPresent(string pathToTest)
-        {
-            return File.Exists(pathToTest + "\\java.exe");
-        }
-
-        private static void ExecuteJavaVersion(string pathToTest)
-        {
-            Process process = new Process();
-            process.StartInfo.FileName = pathToTest + "\\java.exe";
-            process.StartInfo.Arguments = "-version";
-            process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.CreateNoWindow = true;
-            try
-            {
-                process.Start();
-                string sOutput = process.StandardOutput.ReadToEnd();
-                Logger.Debug("Sortie sOuput {0}", sOutput);
-                process.WaitForExit();
-            }
-            catch (Win32Exception e)
-            {
-                Logger.Error(e, e.Message);
-            }
         }
     }
 }
