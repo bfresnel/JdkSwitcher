@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -24,7 +22,7 @@ namespace JdkSwitcher
             int indexToRemove = updatedPath.IndexOf(oldPath);
             updatedPath.RemoveAt(indexToRemove);
             updatedPath.Insert(indexToRemove, pathToNewJdk);
-            string updatedPathString = String.Join(";", updatedPath);
+            string updatedPathString = string.Join(";", updatedPath);
             Logger.Debug("NEW PATH : " + updatedPathString);
             Environment.SetEnvironmentVariable("PATH", updatedPathString, EnvironmentVariableTarget.User);
         }

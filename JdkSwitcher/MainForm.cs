@@ -2,27 +2,35 @@
 using System.Windows.Forms;
 using System.Text.Json;
 using System.IO;
-using System.Text.Json.Serialization;
+using NLog;
+using System.Resources;
 
 namespace JdkSwitcher
 {
     public partial class MainForm : Form
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger(); 
         private static readonly string JDK_VAR = "JAVA_HOME";
         private string jdk;
 
         public MainForm()
         {
             InitializeComponent();
-            this.jdk = Environment.GetEnvironmentVariable(JDK_VAR, EnvironmentVariableTarget.User);
+            jdk = Environment.GetEnvironmentVariable(JDK_VAR, EnvironmentVariableTarget.User);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             txtbJdk.Text = jdk;
-            string jsonString = File.ReadAllText("C:\\app\\JdkSwitcher\\JdkSwitcher\\Save.json");
-            PathConfiguration pc = JsonSerializer.Deserialize<PathConfiguration>(jsonString);
-            comboBox1.Items.Add(pc);
+            try
+            {
+                string jsonString = File.ReadAllText("C:\\app\\JdkSwitcher\\JdkSwitcher\\Save.json");
+                PathConfiguration pc = JsonSerializer.Deserialize<PathConfiguration>(jsonString);
+                comboBox1.Items.Add(pc);
+            } catch (DirectoryNotFoundException ex)
+            {
+                Logger.Info(ex, "No configuration save found");
+            }
             if (comboBox1.Items.Count > 0)
             {
                 comboBox1.SelectedIndex = 0;
@@ -54,10 +62,14 @@ namespace JdkSwitcher
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            sfd.ShowDialog();
-            PathConfiguration pc = new PathConfiguration("JDK8", "C\\Test\\LOUL");
-            string jsonString = JsonSerializer.Serialize(pc);
-            File.WriteAllText("C:\\app\\JdkSwitcher\\JdkSwitcher\\Save.json", jsonString);
+            sfd.InitialDirectory = Directory.GetCurrentDirectory();
+            DialogResult dr = sfd.ShowDialog();
+            if (dr == DialogResult.OK)
+            {
+                PathConfiguration pc = new PathConfiguration("JDK8", "C\\Test\\LOUL");
+                string jsonString = JsonSerializer.Serialize(pc);
+                File.WriteAllText(sfd.FileName, jsonString);
+            }   
         }
     }
 }
