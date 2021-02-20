@@ -21,6 +21,8 @@ jobs:
         dotnet-version: 3.1.101
     - name: Setup MSBuild.exe in PATH
       uses: microsoft/setup-msbuild@v1.0.0
+      env:
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
     - name:  Build Form Application
       run: msbuild $env:Solution_Path /t:Restore /p:Configuration=$env:Configuration
       env:
