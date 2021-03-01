@@ -1,15 +1,14 @@
-﻿using System;
-using System.Windows.Forms;
-using System.Text.Json;
+﻿using NLog;
+using System;
 using System.IO;
-using NLog;
-using System.Resources;
+using System.Text.Json;
+using System.Windows.Forms;
 
 namespace JdkSwitcher
 {
     public partial class MainForm : Form
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger(); 
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private static readonly string JDK_VAR = "JAVA_HOME";
         private string jdk;
 
@@ -27,7 +26,8 @@ namespace JdkSwitcher
                 string jsonString = File.ReadAllText("C:\\app\\JdkSwitcher\\JdkSwitcher\\Save.json");
                 PathConfiguration pc = JsonSerializer.Deserialize<PathConfiguration>(jsonString);
                 comboBox1.Items.Add(pc);
-            } catch (DirectoryNotFoundException ex)
+            }
+            catch (DirectoryNotFoundException ex)
             {
                 Logger.Info(ex, "No configuration save found");
             }
@@ -69,7 +69,7 @@ namespace JdkSwitcher
                 PathConfiguration pc = new PathConfiguration("JDK8", "C\\Test\\LOUL");
                 string jsonString = JsonSerializer.Serialize(pc);
                 File.WriteAllText(sfd.FileName, jsonString);
-            }   
+            }
         }
     }
 }

@@ -15,13 +15,13 @@ namespace JdkSwitcher
 
         public PathConfiguration(string name, string pathValue)
         {
-            this.Name = name;
-            this.PathValue = pathValue;
+            Name = name;
+            PathValue = pathValue;
         }
 
         public override string ToString()
         {
-            return this.Name + " - " + this.PathValue;
+            return Name + " - " + PathValue;
         }
     }
 }
