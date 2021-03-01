@@ -10,17 +10,17 @@ namespace JdkSwitcher
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private static readonly string JDK_VAR = "JAVA_HOME";
-        private string jdk;
+        private readonly string Jdk;
 
         public MainForm()
         {
             InitializeComponent();
-            jdk = Environment.GetEnvironmentVariable(JDK_VAR, EnvironmentVariableTarget.User);
+            Jdk = Environment.GetEnvironmentVariable(JDK_VAR, EnvironmentVariableTarget.User);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            txtbJdk.Text = jdk;
+            txtbJdk.Text = Jdk;
             try
             {
                 string jsonString = File.ReadAllText("C:\\app\\JdkSwitcher\\JdkSwitcher\\Save.json");
